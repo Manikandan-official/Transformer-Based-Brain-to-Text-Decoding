@@ -2366,7 +2366,7 @@ inline function get_type_override(const void *this_ptr, const type_info *this_ty
             PyObject* locals = PyEval_GetLocals();
             if (locals != nullptr) {
                 PyObject *self_caller = dict_getitem(
-                    locals, PyTuple_GET_ITEM(f_code->co_varnames, 0)
+                    locals, PyTuple_GET_ITEM(f_code->co_names, 0)
                 );
                 if (self_caller == self.ptr()) {
                     Py_DECREF(f_code);
@@ -2384,7 +2384,7 @@ inline function get_type_override(const void *this_ptr, const type_info *this_ty
         && frame->f_code->co_argcount > 0) {
         PyFrame_FastToLocals(frame);
         PyObject *self_caller = dict_getitem(
-            frame->f_locals, PyTuple_GET_ITEM(frame->f_code->co_varnames, 0));
+            frame->f_locals, PyTuple_GET_ITEM(frame->f_code->co_names, 0));
         if (self_caller == self.ptr())
             return function();
     }
@@ -2402,7 +2402,7 @@ inline function get_type_override(const void *this_ptr, const type_info *this_ty
         "    frame = frame.f_back\n"
         "    if frame is not None and str(frame.f_code.co_name) == name and "
         "frame.f_code.co_argcount > 0:\n"
-        "        self_caller = frame.f_locals[frame.f_code.co_varnames[0]]\n"
+        "        self_caller = frame.f_locals[frame.f_code.co_names[0]]\n"
         "        if self_caller == self:\n"
         "            self = None\n",
         Py_file_input, d.ptr(), d.ptr());

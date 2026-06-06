@@ -1,3 +1,4 @@
+#include <frameobject.h>
 /*
     pybind11/detail/type_caster_base.h (originally first part of pybind11/cast.h)
 
@@ -479,7 +480,7 @@ PYBIND11_NOINLINE std::string error_string() {
                 "  " + handle(f_code->co_filename).cast<std::string>() +
                 "(" + std::to_string(lineno) + "): " +
                 handle(f_code->co_name).cast<std::string>() + "\n";
-            frame = frame->f_back;
+            frame = PyFrame_GetBack(frame);
             Py_DECREF(f_code);
         }
     }

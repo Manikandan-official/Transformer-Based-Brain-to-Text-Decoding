@@ -26,7 +26,7 @@ set(FETCHCONTENT_BASE_DIR ${fc_base})
 
 if(NOT MSVC)
   # Keep the same with openfst, -fPIC or -fpic
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -pthread -fPIC")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -pthread -fPIC")
 endif()
 
 # third_party: gflags
@@ -85,13 +85,9 @@ if(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
 else()
     message(FATAL_ERROR "Unsupported CMake System Name '${CMAKE_SYSTEM_NAME}' (expected 'Windows', 'Linux' or 'Darwin')")
 endif()
-FetchContent_Declare(libtorch
-  URL      ${LIBTORCH_URL}
-  URL_HASH ${URL_HASH}
-)
-set(gtest_force_shared_crt ON CACHE BOOL "Always use msvcrt.dll" FORCE)
-FetchContent_MakeAvailable(libtorch)
-find_package(Torch REQUIRED PATHS ${libtorch_SOURCE_DIR} NO_DEFAULT_PATH)
+    set(CMAKE_PREFIX_PATH "/home/zeus/miniconda3/envs/cloudspace/lib/python3.9/site-packages/torch/share/cmake/Torch")
+    find_package(Torch REQUIRED)
+set(CUDA_nvToolsExt_LIBRARY "")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${TORCH_CXX_FLAGS} -DC10_USE_GLOG")
 
 # utils
